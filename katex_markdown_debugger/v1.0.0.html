@@ -19,7 +19,7 @@ marked: v12.0.0
   </head>
   <body>
     <textarea id="t"></textarea>
-    <button onclick="const b=new Blob([t.value],{type:'text/markdown'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=`${t.value.slice(0,24)}.katex-markdown.md`;a.click();">Markdownで保存する</button>
+    <button onclick="fd()">Markdownで保存する</button>
     <br>
     <br>
     <div id="w"></div>
@@ -27,6 +27,13 @@ marked: v12.0.0
   <script>
     const t=document.getElementById("t")
     const w=document.getElementById("w")
+    function fd(){
+      const b=new Blob([t.value],{type:'text/markdown'})
+      const a=document.createElement('a')
+      a.href=URL.createObjectURL(b)
+      a.download=`${t.value.slice(0,24)}.katex-md.md`
+      a.click()
+    }
     t.addEventListener("input",e=>ts(w))
     function ts(element,value=undefined){
       if (value){
@@ -47,11 +54,11 @@ marked: v12.0.0
     }
     document.addEventListener('DOMContentLoaded',e=>dl())
     window.addEventListener('hashchange',e=>{
-      if (location.hash=="dataReload"){
+      if (location.hash=="#dataReload"){
         dl()
         location.hash=""
       }
-      if (location.hash=="dataReset"){
+      if (location.hash=="#dataReset"){
         localStorage.removeItem("/data/lastdata")
         location.hash=""
       }
