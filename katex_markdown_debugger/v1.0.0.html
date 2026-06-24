@@ -55,12 +55,18 @@ marked: v12.0.0
     document.addEventListener('DOMContentLoaded',e=>dl())
     window.addEventListener('hashchange',e=>{
       if (location.hash=="#dataReload"){
-        dl()
-        location.hash=""
+        history.replaceState('',document.title,window.location.pathname+window.location.search);
+        dl();
       }
-      if (location.hash=="#dataReset"){
-        localStorage.removeItem("/data/lastdata")
-        location.hash=""
+      if (location.hash=="#dataReset") {
+        history.replaceState('',document.title,window.location.pathname+window.location.search);
+        localStorage.removeItem("/data/lastdata");
+        t.value="";
+        ts(w); 
+      }
+      if (location.hash="#dataDownload"){
+        history.replaceState('',document.title,window.location.pathname+window.location.search);
+        fd()
       }
     })
   </script>
