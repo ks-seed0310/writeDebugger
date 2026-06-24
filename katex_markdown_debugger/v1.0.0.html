@@ -28,7 +28,7 @@ marked: v12.0.0
     const w=document.getElementById("w")
     t.addEventListener("input",e=>ts(w))
     function ts(element,value=undefined){
-      if (!value){
+      if (value){
         t.value=value
       }
       element.innerHTML=marked.parse(t.value)
