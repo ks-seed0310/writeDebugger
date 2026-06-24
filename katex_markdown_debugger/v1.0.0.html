@@ -27,8 +27,8 @@ marked: v12.0.0
     const t=document.getElementById("t")
     const w=document.getElementById("w")
     t.addEventListener("input",e=>ts(w))
-    function ts(element){
-      element.innerHTML=marked.parse(t.value)
+    function ts(element,value=undefined){
+      element.innerHTML=marked.parse(value??t.value)
       renderMathInElement(element,{
           delimiters: [
               {left: '$$', right: '$$', display: true},
@@ -37,5 +37,20 @@ marked: v12.0.0
           throwOnError: false
       })
     }
+    function dl(){
+      ts(w,localStorage.getItem('/data/lastdata'))
+    }
+    window.addEventListener('beforeunload',function(e){
+      localStorage.setItem('/data/lastdata',t.value);
+    });
+    document.addEventListener('visibilitychange',function(e){
+      localStorage.setItem('/data/lastdata',t.value)
+    })
+    document.addEventlistener('domcontentloaded',e=>dl())
+    document.addEventlistener('hashchange',e=>{
+      if (location.hash=="dataReload"){
+        dl()
+      }
+    })
   </script>
 </html>
