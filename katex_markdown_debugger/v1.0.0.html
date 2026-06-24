@@ -36,16 +36,11 @@ marked: v12.0.0
           ],
           throwOnError: false
       })
+      localStorage.setItem('/data/lastdata',t.value);
     }
     function dl(){
       ts(w,localStorage.getItem('/data/lastdata'))
     }
-    window.addEventListener('beforeunload',function(e){
-      localStorage.setItem('/data/lastdata',t.value);
-    });
-    document.addEventListener('visibilitychange',function(e){
-      localStorage.setItem('/data/lastdata',t.value)
-    })
     document.addEventListener('domcontentloaded',e=>dl())
     document.addEventListener('hashchange',e=>{
       if (location.hash=="dataReload"){
