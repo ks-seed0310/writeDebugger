@@ -46,8 +46,8 @@ marked: v12.0.0
     document.addEventListener('visibilitychange',function(e){
       localStorage.setItem('/data/lastdata',t.value)
     })
-    document.addEventlistener('domcontentloaded',e=>dl())
-    document.addEventlistener('hashchange',e=>{
+    document.addEventListener('domcontentloaded',e=>dl())
+    document.addEventListener('hashchange',e=>{
       if (location.hash=="dataReload"){
         dl()
       }
