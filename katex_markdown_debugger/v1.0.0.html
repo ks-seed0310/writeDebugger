@@ -28,7 +28,10 @@ marked: v12.0.0
     const w=document.getElementById("w")
     t.addEventListener("input",e=>ts(w))
     function ts(element,value=undefined){
-      element.innerHTML=marked.parse(value??t.value)
+      if (!value){
+        t.value=value
+      }
+      element.innerHTML=marked.parse(t.value)
       renderMathInElement(element,{
           delimiters: [
               {left: '$$', right: '$$', display: true},
