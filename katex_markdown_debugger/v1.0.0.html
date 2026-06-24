@@ -20,6 +20,7 @@ marked: v12.0.0
   <body>
     <textarea id="t"></textarea>
     <button onclick="fd()">Markdownで保存する</button>
+    <span>Markdownを読み込む:</span><input type="file" id="f" accept="text/markdown,.md">
     <br>
     <br>
     <div id="w"></div>
@@ -34,6 +35,12 @@ marked: v12.0.0
       a.download=`${t.value.slice(0,32)||'untitled'}.katex-md.md`;
       a.click();
     }
+    document.getElementById("f").addEventListener("change",function(e){
+      const fi=event.target.files[0]
+      if (!fi)return
+      const t=await fi.text()
+      ts(w,t)
+    })
     t.addEventListener("input",e=>ts(w))
     function ts(element,value=undefined){
       if (value){
