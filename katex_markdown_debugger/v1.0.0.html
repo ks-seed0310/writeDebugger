@@ -46,7 +46,7 @@ marked: v12.0.0
       ts(w,localStorage.getItem('/data/lastdata'))
     }
     document.addEventListener('DOMContentLoaded',e=>dl())
-    document.addEventListener('hashchange',e=>{
+    window.addEventListener('hashchange',e=>{
       if (location.hash=="dataReload"){
         dl()
         location.hash=""
