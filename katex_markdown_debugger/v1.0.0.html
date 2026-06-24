@@ -35,8 +35,8 @@ marked: v12.0.0
       a.download=`${t.value.slice(0,32)||'untitled'}.katex-md.md`;
       a.click();
     }
-    document.getElementById("f").addEventListener("change",function(e){
-      const fi=event.target.files[0]
+    document.getElementById("f").addEventListener("change",async function(e){
+      const fi=e.target.files[0]
       if (!fi)return
       const t=await fi.text()
       ts(w,t)
