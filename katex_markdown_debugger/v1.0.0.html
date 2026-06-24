@@ -52,22 +52,27 @@ marked: v12.0.0
     function dl(){
       ts(w,localStorage.getItem('/data/lastdata'))
     }
-    document.addEventListener('DOMContentLoaded',e=>dl())
     window.addEventListener('hashchange',e=>{
-      if (location.hash=="#dataReload"){
+      const hash=location.hash.toLowerCase()
+      if (location.hash=="#datareload"){
         history.replaceState('',document.title,window.location.pathname+window.location.search);
         dl();
       }
-      if (location.hash=="#dataReset") {
+      if (location.hash=="#datareset") {
         history.replaceState('',document.title,window.location.pathname+window.location.search);
         localStorage.removeItem("/data/lastdata");
         t.value="";
         ts(w); 
       }
-      if (location.hash=="#dataDownload"){
+      if (location.hash=="#datadownload"){
         history.replaceState('',document.title,window.location.pathname+window.location.search);
         fd()
       }
     })
+    window.onload=function(){
+      const params=new URLSearchParams(location.search)
+      const d=params.get("data")??localStorage.getItem('/data/lastdata')
+      ts(w,d)
+    }
   </script>
 </html>
