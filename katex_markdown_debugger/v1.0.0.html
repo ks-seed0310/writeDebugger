@@ -30,7 +30,7 @@ marked: v12.0.0
     function fd(){
       const b=btoa(unescape(encodeURIComponent(t.value)));
       const a=document.createElement('a');
-      a.href=`data:text/markdown;base64,${base64}`;
+      a.href=`data:text/markdown;base64,${b}`;
       a.download=`${t.value.slice(0,32)||'untitled'}.katex-md.md`;
       a.click();
     }
