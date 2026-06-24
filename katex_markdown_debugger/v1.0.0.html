@@ -19,6 +19,7 @@ marked: v12.0.0
   </head>
   <body>
     <textarea id="t"></textarea>
+    <button onclick="const b=new Blob([t.value],{type:'text/markdown'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=`${t.value.slice(0,24)}.katex-markdown.md`;a.click();">Markdownで保存する</button>
     <br>
     <br>
     <div id="w"></div>
@@ -48,6 +49,10 @@ marked: v12.0.0
     document.addEventListener('hashchange',e=>{
       if (location.hash=="dataReload"){
         dl()
+        location.hash=""
+      }
+      if (location.hash=="dataReset"){
+        localStorage.removeItem("/data/lastdata")
         location.hash=""
       }
     })
