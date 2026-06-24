@@ -39,12 +39,12 @@ marked: v12.0.0
           ],
           throwOnError: false
       })
-      localStorage.setItem('/data/lastdata',t.value);
+      localStorage.setItem('/data/lastdata',t.value==""?localStorage.getItem('/data/lastdata'):t.value);
     }
     function dl(){
       ts(w,localStorage.getItem('/data/lastdata'))
     }
-    document.addEventListener('domcontentloaded',e=>dl())
+    document.addEventListener('DOMContentLoaded',e=>dl())
     document.addEventListener('hashchange',e=>{
       if (location.hash=="dataReload"){
         dl()
