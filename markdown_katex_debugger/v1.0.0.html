@@ -20,8 +20,8 @@ marked: v12.0.0
   <body>
     <textarea id="t"></textarea>
     <button onclick="fd()">Markdownで保存する</button>
-    <span style="padding-left:2rem">Markdownを読み込む:</span><input type="file" id="f" accept="text/markdown,.md">
-    <button><a href="../katex_markdown_debugger/v1.0.0.html">katex→markdown→draw</a></button>
+    <span style="padding-left:1rem">Markdownを読み込む:</span><input type="file" id="f" accept="text/markdown,.md">
+    <button onclick="document.getElementById('kmd_jmp').click()"><a id="kmd_jmp" href="../katex_markdown_debugger/v1.0.0.html" style="color:black;text-decoration: none;">katex→markdown→draw</a></button>
     <br>
     <br>
     <div id="w"></div>
