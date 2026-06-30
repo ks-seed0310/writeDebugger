@@ -1,0 +1,87 @@
+<!--
+katex : v0.16.11
+marked: v12.0.0
+-->
+<!doctype html>
+<html lang=ja>
+  <head>
+    <meta charset=utf-8>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" integrity="sha384-7zkQWkzuo3B5mTepMUcHkMB5jZaolc2xDwL6VFqjFALcbeS9Ggm/Yr2r3Dy4lfFg" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" integrity="sha384-43gviWU0YVjaDtb/GhzOouOXtZMP/7XUzwPTstBeZFe/+rCMvRwr4yROQP43s0Xk" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked@12.0.0/lib/marked.umd.js" integrity="sha384-upSO/KilZ3BQjacZuvd6S0LD7zYpQ9H7yGYsxI038+L2Iq+8Ss4vp5ino+9TGSaA" crossorigin="anonymous"></script>
+    <style>
+      #t{
+        width:100%;
+        height:40vh;
+      }
+    </style>
+  </head>
+  <body>
+    <textarea id="t"></textarea>
+    <button onclick="fd()">Markdownで保存する</button>
+    <span style="padding-left:1rem">Markdownを読み込む:</span><input type="file" id="f" accept="text/markdown,.md">
+    <button onclick="document.getElementById('mkd_jmp').click()"><a id="mkd_jmp" href="../markdown_katex_debugger/v1.0.0.html" style="color:black;text-decoration: none;">markdown→katex→draw</a></button>
+    <br>
+    <br>
+    <div id="w"></div>
+  </body>
+  <script>
+    const t=document.getElementById("t")
+    const w=document.getElementById("w")
+    function fd(){
+      const b=btoa(unescape(encodeURIComponent(t.value)));
+      const a=document.createElement('a');
+      a.href=`data:text/markdown;base64,${b}`;
+      a.download=`${t.value.slice(0,32)||'untitled'}.katex-md.md`;
+      a.click();
+    }
+    document.getElementById("f").addEventListener("change",async function(e){
+      const fi=e.target.files[0]
+      if (!fi)return
+      const t=await fi.text()
+      ts(w,t)
+    })
+    t.addEventListener("input",e=>ts(w))
+    function ts(element,value=undefined){
+      if (value){
+        t.value=value
+      }
+      element.innerHTML=t.value.replace(/\\</g,"&lt;").replace(/\\>/g,"&rt;")
+      renderMathInElement(element,{
+          delimiters: [
+              {left: '$$', right: '$$', display: true},
+              {left: '$', right: '$', display: false}
+          ],
+          throwOnError: false
+      })
+      element.innerHTML=marked.parse(element.innerHTML)
+      localStorage.setItem('/data/lastdata',t.value==""?localStorage.getItem('/data/lastdata'):t.value);
+    }
+    function dl(){
+      ts(w,localStorage.getItem('/data/lastdata'))
+    }
+    window.addEventListener('hashchange',e=>{
+      const hash=location.hash.toLowerCase()
+      if (location.hash=="#datareload"){
+        history.replaceState('',document.title,window.location.pathname+window.location.search);
+        dl();
+      }
+      if (location.hash=="#datareset") {
+        history.replaceState('',document.title,window.location.pathname+window.location.search);
+        localStorage.removeItem("/data/lastdata");
+        t.value="";
+        ts(w); 
+      }
+      if (location.hash=="#datadownload"){
+        history.replaceState('',document.title,window.location.pathname+window.location.search);
+        fd()
+      }
+    })
+    window.onload=function(){
+      const params=new URLSearchParams(location.search)
+      const d=params.get("data")??localStorage.getItem('/data/lastdata')
+      ts(w,d)
+    }
+  </script>
+</html>
